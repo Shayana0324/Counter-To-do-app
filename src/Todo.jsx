@@ -43,7 +43,6 @@ const Todo = () => {
         </div>
       )}
 
-
       <div className="tasks">
         <button className="addTask" onClick={addTask}>
           Add Task
