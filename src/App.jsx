@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+import Counter from './Counter'
+import Todo from './Todo'
 import './App.css'
+import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom'
+
+function Home() {
+  return <h1>Welcome to your personalized To-Do App</h1>;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      {/* <div className="card"> */}
+      {/* Navigation */ }
+        <nav>
+          <Link to="/">Home</Link> | {" "}
+          {/* <Link to="/counter">Counter</Link> | {" "} */}
+          <Link to="/todo">To-Do</Link>
+        </nav>
+      {/* </div> */}
+
+      {/* Routing 
+      Go here for reference -- https://www.w3schools.com/react/react_router.asp
+      */ }
+      <Routes>
+        <Route path="/" element={<Home />} /> 
+        <Route path="/counter" element={<Counter />} />
+        <Route path="/todo" element={<Todo />} >
+          <Route path="add" element={< addTask />} />
+          <Route path="remove" element={< removeTask />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+
+    
   )
 }
 
-export default App
+export default App;
