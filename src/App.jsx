@@ -2,10 +2,19 @@
 import Counter from './Counter'
 import Todo from './Todo'
 import './App.css'
+import './Login'
+import './Signup'
 import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom'
+import Popup from 'reactjs-popup';
+import Login from './Login'
 
 function Home() {
-  return <h1>Welcome to your personalized To-Do App</h1>;
+  return (
+    <div>
+      <h1>Welcome to your personalized To-Do App</h1>
+      <Login />
+    </div>
+  );
 }
 
 function App() {
@@ -18,7 +27,7 @@ function App() {
         <nav>
           <Link to="/">Home</Link> | {" "}
           {/* <Link to="/counter">Counter</Link> | {" "} */}
-          <Link to="/todo">To-Do</Link>
+          <Link to="/todo">To-Do</Link> 
         </nav>
       {/* </div> */}
 
