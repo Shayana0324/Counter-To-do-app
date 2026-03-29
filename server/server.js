@@ -11,5 +11,15 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Backend running '});
+    res.json({ message: 'Backend running'});
+});
+
+// app.use('/auth', authRoutes);
+// app.use('/tasks', taskRoutes);
+// app.use('/llm', llmRoutes);
+
+// eslint-disable-next-line no-undef
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
