@@ -1,1 +1,1 @@
-ALTER TABLE user_details ADD COLUMN occupation TEXT;
+ALTER TABLE public.user_details ADD COLUMN occupation TEXT;
