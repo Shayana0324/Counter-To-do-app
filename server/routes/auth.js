@@ -22,15 +22,15 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10); // 10 : salt rounds - how difficult the password is to crack
 
         //Insert user details into DB
-        const result = await pool.query('INSERT INTO user_details (user_name, user_email, password VALUES ($1, $2, $3', [name, email, hashedPassword]);
+        const result = await pool.query('INSERT INTO user_details (user_name, user_email, password VALUES ($1, $2, $3) RETURNING id, name, email', [name, email, hashedPassword]);
 
         const user = result.rows[0];
 
         //Create JWT Token
         const token = jwt.sign(
-            { //// payload — data stored in token
-                id: user_details.id,
-                email: user_details.user_email
+            { // payload — data stored in token
+                id: user.id,
+                email: user.user_email
             },
             process.env.JWT_SECRET,
             {
@@ -45,3 +45,43 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Server error', err });
     }
 });
+
+// POST /auth/login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        //Find user by email
+        const result = await pool.query(
+            'SELECT * FROM user_details WHERE user_email = $1', [email]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        const user = result.rows[0];
+
+        // Compare password with stored hash
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return res.status(401).json({ error: 'Invalid email or password'});
+        }
+
+        // Compare JWT token
+        const token = jwt.sign(
+            { 
+                id: user.id, 
+                email: user.email 
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '5d' }
+        );
+
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email }});
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+export default router;
