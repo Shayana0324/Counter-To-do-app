@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth.js';
+import taskRoutes from  './routes/tasks.js';
 
 dotenv.config();
 
@@ -14,8 +16,8 @@ app.get('/', (req, res) => {
     res.json({ message: 'Backend running'});
 });
 
-// app.use('/auth', authRoutes);
-// app.use('/tasks', taskRoutes);
+app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes);
 // app.use('/llm', llmRoutes);
 
 // eslint-disable-next-line no-undef
