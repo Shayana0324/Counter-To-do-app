@@ -1,0 +1,308 @@
+{
+  "info": {
+    "_postman_id": "1b966fba-17ea-4a7e-84f6-ad7f99f0ffdf",
+    "name": "To-do app - Testing Connections",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48347421",
+    "_collection_link": "https://go.postman.co/collection/48347421-1b966fba-17ea-4a7e-84f6-ad7f99f0ffdf?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Creates a new webhook to receive real-time notifications for payment, transaction, and refund events.\n\nWhenever any of these events occur, the defined webhook `webhook_url` endpoint e.g. `https://api.example.com/webhooks/listener-for-payment-gateway` will receive a POST request with relevant data.\n\nAlso, you can configure your webhooks to be event-driven by default, as it will only be triggered when one of these system events is fired."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"webhook_url\": \"https://api.example.com/webhooks/listener-for-payment-gateway\",\n  \"events\": [\"payment.created\", \"payment.updated\", \"transaction.created\", \"transaction.updated\", \"refund.created\", \"refund.updated\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/webhooks",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "webhooks"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "name": "Content-Type",
+              "description": "",
+              "type": "text"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"W123456\",\n    \"url\": \"https://api.example.com/webhooks/listener-for-payment-gateway\",\n    \"events\": [\n        \"payment.created\",\n        \"payment.updated\",\n        \"transaction.created\",\n        \"transaction.updated\",\n        \"refund.created\",\n        \"refund.updated\"\n    ],\n    \"created_at\": \"2023-01-01T12:00:00Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Middleware",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdCBVc2VyIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc1NDIzNDM3LCJleHAiOjE3NzU4NTU0Mzd9.2noRrH4JtgVOEYE5wn1KDy0lTLYWtI2cdilE36HmG8E",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Tasks",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc1NDg2MzE3LCJleHAiOjE3NzU5MTgzMTd9.pSxm2YGIYjSSmrqtekWTtkDqlGqRrlFGS5NEPRPvgZ0",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"text\": \"Finish the report\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Tasks",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc1NDg2MzE3LCJleHAiOjE3NzU5MTgzMTd9.pSxm2YGIYjSSmrqtekWTtkDqlGqRrlFGS5NEPRPvgZ0",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Marking Complete - Task",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc1NDg2MzE3LCJleHAiOjE3NzU5MTgzMTd9.pSxm2YGIYjSSmrqtekWTtkDqlGqRrlFGS5NEPRPvgZ0",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"completed\": true }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/tasks/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit a Task",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc1NDg2MzE3LCJleHAiOjE3NzU5MTgzMTd9.pSxm2YGIYjSSmrqtekWTtkDqlGqRrlFGS5NEPRPvgZ0",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"text\": \"Call the dentist at 3pm\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/tasks/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Task",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc1NDg2MzE3LCJleHAiOjE3NzU5MTgzMTd9.pSxm2YGIYjSSmrqtekWTtkDqlGqRrlFGS5NEPRPvgZ0",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/tasks/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -13,16 +13,17 @@ router.get('/', verifyToken, async (req, res) => {
         );
         res.json(result.rows);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
 //POST /tasks - add a new task
-router.prototype('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     const { text } = req.body;
     try {
         const result = await pool.query(
-            'INSERT INTO tasks (user_id, text) VALUES ($1, $2) RETURNING  *', [req.user.id, text]
+            'INSERT INTO tasks (user_id, tasks_desc) VALUES ($1, $2) RETURNING  *', [req.user.id, text]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -37,7 +38,7 @@ router.patch('/:id', verifyToken, async (req, res) => {
     try {
         const result = await pool.query(
             `UPDATE tasks 
-            SET text = COALESCE($1, text), 
+            SET tasks_desc = COALESCE($1, tasks_desc), 
             completed = COALESCE($2, completed) 
             WHERE id = $3 AND user_id = $4 
             RETURNING *`, 
