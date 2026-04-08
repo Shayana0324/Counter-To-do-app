@@ -141,15 +141,23 @@ const Login = () => {
                                 </label>
                             </form>
                         ) : (
-                            <form>
+                            <form onSubmit={(e) => handleLogin(e, close)}>
                                 <span onClick={close}>x</span><br />
                                 <h5>Login to your account!</h5>
 
-                                <label>Username</label><br />
-                                <input type="text" name="username" /><br />
+                                <label>Email</label><br />
+                                <input type="text" name="email" 
+                                value={loginForm.email}
+                                onChange={handleLoginChange}
+                                required
+                                /><br />
 
                                 <label>Password</label><br />
-                                <input type="password" name="password" /><br />
+                                <input type="password" name="password" 
+                                value={loginForm.password}
+                                onChange={handleLoginChange}
+                                required
+                                /><br />
 
                                 <button type="submit">Login</button><br />
 
@@ -157,7 +165,7 @@ const Login = () => {
                                     Don't have an account?{" "}
                                     <span
                                         style={{ color: "blue", cursor: "pointer" }}
-                                        onClick={() => setIsSignup(true)}
+                                        onClick={() => {setIsSignup(true); setError("");}}
                                     >
                                         Sign Up
                                     </span>
@@ -167,11 +175,6 @@ const Login = () => {
                     </div>
                 )}
             </Popup>
-            {/* <BrowserRouter>
-        <Routes>
-            <Route path="/signup" element={< Signup />}></Route>
-        </Routes>
-    </BrowserRouter> */}
         </div>
     )
 }
