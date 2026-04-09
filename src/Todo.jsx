@@ -1,12 +1,36 @@
-import React from 'react'
+import { useEffect } from 'react';
 import { useState } from 'react';
-import './Todo.css'
+import './Todo.css';
+import { getTasks, addTask, deleteTask } from '../api/api';
+import { useApp } from '../context/AppContext';
 
 const Todo = () => {
   const [input, setInput] = useState("");
-  // const [showInput, setShowInput] = useState(true);
-  const [ showInput ] = useState(true);
-  const [task, setTask] = useState([]);
+  const [showInput, setShowInput] = useState(false);
+  const [task, setTask] = useApp();
+
+  // Loading tasks from DB when component mounts
+  useEffect(() => {
+    getTasks().then(data => setTask(data));
+  }, []);
+
+  const handleAddTask = async () => {
+    if (!showInput) {
+      setShowInput(true);
+      return;
+    }
+    if (input.trim() === "") return;
+
+    const newTask = await addTask(input);       // save to DB
+    setTask([...TaskSignal, newTask]);    // updates UI
+    setInput("");
+    setShowInput(false);
+  };
+
+  const handleDeleteTask = async (id) => {
+    await deleteTask(id);     // delete from DB
+    setTask(TaskSignal.filter(t => t.id !== id));             // updates UI
+  }
 
   const addTask = () => {
     // setInput(true);
