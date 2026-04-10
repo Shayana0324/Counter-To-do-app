@@ -1,12 +1,13 @@
 // import { useState } from 'react'
-import Counter from './Counter'
-import Todo from './Todo'
-import './App.css'
-import './Login'
-import './Signup'
-import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom'
+import Counter from './Counter';
+import Todo from './Todo';
+import './App.css';
+import './Login';
+import './Signup';
+import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-import Login from './Login'
+import Login from './Login';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 function Home() {
   return (
@@ -41,6 +42,13 @@ function App() {
           <Route path="add" element={< addTask />} />
           <Route path="remove" element={< removeTask />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/todo" element={
+          <ProtectedRoute>
+            <Todo />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
 
