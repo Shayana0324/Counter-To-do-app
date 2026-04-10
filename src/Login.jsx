@@ -1,14 +1,13 @@
 import Popup from 'reactjs-popup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sign } from 'node:crypto';
 
 const Login = () => {
     const [isSignup, setIsSignup] = useState(false);
     const navigate = useNavigate();
     
     // Separate form state for each form
-    const [loginForm, serLoginForm] = useState({ email: '', password: '' });
+    const [loginForm, setLoginForm] = useState({ email: '', password: '' });
     const [signupForm, setSignupForm] = useState({ name: '', email: '', password: '', confirmPassword: ''});
     const [error, setError] = useState('');
 

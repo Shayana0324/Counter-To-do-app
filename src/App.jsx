@@ -2,11 +2,10 @@
 import Counter from './Counter';
 import Todo from './Todo';
 import './App.css';
-import './Login';
-import './Signup';
 import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import Login from './Login';
+import Signup from './Signup';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function Home() {
@@ -24,35 +23,38 @@ function App() {
   return (
     <BrowserRouter>
       {/* <div className="card"> */}
-      {/* Navigation */ }
-        <nav>
-          <Link to="/">Home</Link> | {" "}
-          {/* <Link to="/counter">Counter</Link> | {" "} */}
-          <Link to="/todo">To-Do</Link> 
-        </nav>
+      {/* Navigation */}
+      <nav>
+        <Link to="/">Home</Link> | {" "}
+        {/* <Link to="/counter">Counter</Link> | {" "} */}
+        <Link to="/todo">To-Do</Link>
+      </nav>
       {/* </div> */}
 
       {/* Routing 
       Go here for reference -- https://www.w3schools.com/react/react_router.asp
       */ }
-      <Routes>
-        <Route path="/" element={<Home />} /> 
-        <Route path="/counter" element={<Counter />} />
-        <Route path="/todo" element={<Todo />} >
+
+      {/* <Route path="/todo" element={<Todo />} >
           <Route path="add" element={< addTask />} />
           <Route path="remove" element={< removeTask />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        </Route> */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/counter" element={<Counter />} />
+
         <Route path="/todo" element={
           <ProtectedRoute>
             <Todo />
           </ProtectedRoute>
         } />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
 
-    
+
   )
 }
 
