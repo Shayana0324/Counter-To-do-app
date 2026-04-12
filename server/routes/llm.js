@@ -1,9 +1,12 @@
 import express from 'express';
-import Anthropic from '@anthropic-ai/sdk';
+import Groq from 'groq-sdk';
 import verifyToken from '../middleware/auth.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // POST 
 router.post('/suggest', verifyToken, async (req, res) => {
@@ -14,39 +17,42 @@ router.post('/suggest', verifyToken, async (req, res) => {
     }
 
     try {
-        const message = await client.messages.create({
-            model: 'claude-opus-4-5',
+        const completion = await client.chat.completions.create({
+            model: 'llama-3.1-8b-instant',
             max_tokens: 1024,
             messages: [
                 {
-                    role: 'user',
-                    content: `You are a helpful productivity assistant. The user wants help with their to-do list.
-                    User's existing tasks: ${existingTasks?.length > 0 ? existingTasks.join(', ') : 'none'}
-                    
-                    User's request: "${prompt}"
-                    
-                    Your job:
-                    - Suggest a clear, actionable to-do list based on the request
-                    - Prioritize the tasks by importance (high, medium, low)
-                    - Keep each task short and specific (under 15 words)
-                    - Return ONLY a JSON array, no explanation, no markdown
-
-                    Format: 
-                    [
-                        { "text": "task description", "priority": "high" },
-                        { "text": "task description", "priority": "medium" },
-                        { "text": "task description", "priority": "low" }
-                    ]
+                    role: 'system',
+                    content: `You are a helpful productivity assistant. 
+                    When given a user request, return ONLY a JSON array of task objects.
+                    No explanation, no markdown, no code blocks - raw JSON only.
+                    Each object must have exactly two fields: "text" and "priority".
+                    Priority must be one of: "high", "medium", or "low".
+                    Example: [{"text":"Buy groceries","priority":"high"},{"text":"Call dentist","priority":"medium"}]
                     `
+                }, {
+                    role: 'user',
+                    content: `My existing tasks: 
+                    ${existingTasks?.length > 0 ? existingTasks.join(', ') : 'none'}
+                    My request: "${prompt}"
+
+                    Give me a prioritized to-do list for this.`
                 }
-            ]
+            ],
+            temperature: 0.7,
         });
 
-        // Parse JSON returned by array Claude
-        const raw = message.content[0].text.trim();
-        const suggestions = JSON.parse(raw);
+        const raw = completion.choices[0].message.content.trim();
+        
+        // Safety net - strip markdown code blocks if model wraps response in them
+        const cleaned = raw
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
 
+        const suggestions = JSON.parse(cleaned);
         res.json({ suggestions });
+    
     } catch (err) {
         console.error('LLM error:', err);
         res.status(500).json({ error: 'Failed to get suggestions' });
