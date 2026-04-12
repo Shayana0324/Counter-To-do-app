@@ -47,3 +47,13 @@ export const updateTask = (id, data) =>
         body: JSON.stringify(data)
     }).then(res => res.json());
 
+export const getSuggestions = (prompt, existingTasks) => 
+    fetch('https://localhost:5000/llm/suggest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({ prompt, existingTasks })
+    }).then(res => res.json());
+
