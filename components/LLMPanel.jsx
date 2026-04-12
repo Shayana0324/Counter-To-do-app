@@ -71,7 +71,7 @@ const LLMPanel = ({ onClose }) => {
                     <h2>✦ AI Assitant</h2>
                     <p className="llmSubtitle">Describe what you need to get done</p>
                 </div>
-                <button className="llmClose">X</button>
+                <button className="llmClose" onClick={onClose}>X</button>
             </div>
 
             {/* to prompt input */}
