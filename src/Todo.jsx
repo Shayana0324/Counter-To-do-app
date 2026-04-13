@@ -3,12 +3,14 @@ import '../css/Todo.css';
 import { getTasks, addTask, deleteTask } from '../api/api';
 import { useApp } from '../context/AppContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import LLMPanel from '../components/LLMPanel.jsx';
 
 const Todo = () => {
   const {tasks, setTasks, logout} = useApp();         
   const [input, setInput] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [loading, setLoading] = useState(true); // loading state while fetching tasks
+  const [showLLM, setShowLLM] = useState(false);
   const navigate = useNavigate();
 
   // Load tasks from DB when component mounts
@@ -49,10 +51,10 @@ const Todo = () => {
     setTasks([]);
   };
 
-  const handleSuggest = async () => {
-    // placeholder — will call /llm/suggest once that route is built
-    console.log("LLM suggest coming soon");
-  };
+  // const handleSuggest = async () => {
+  //   // placeholder — will call /llm/suggest once that route is built
+  //   console.log("LLM suggest coming soon");
+  // };
 
   return (
     <div className="inputContainer">
@@ -81,13 +83,15 @@ const Todo = () => {
         <button className="addTask" onClick={handleAddTask}>
           + New Task
         </button>
-        <button className="suggest" onClick={handleSuggest}>
-          ✦ Suggest Tasks
+        <button className="suggest" onClick={() => setShowLLM(!showLLM)}>
+          {showLLM ? '✕ Close Assistant' : '✦ Suggest Tasks'}
         </button>
         <button className="resetlist" onClick={handleResetList}>
           ↺ Clear All
         </button>
       </div>
+
+      {showLLM && <LLMPanel onClose={() => setShowLLM(false)} />}
 
       {loading && <p className="statusText">Loading your tasks...</p>}
 
