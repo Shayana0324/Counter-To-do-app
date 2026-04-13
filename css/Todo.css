@@ -487,3 +487,268 @@ body {
     align-items: center;
     margin-top: 8px;
 }
+
+/* ═══════════════════════════════════════════
+   LLM PANEL
+═══════════════════════════════════════════ */
+
+.llmPanel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: slideDown 0.2s ease;
+}
+
+/* Header */
+.llmHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.llmHeader h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--text);
+}
+
+.llmSubtitle {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.llmClose {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.llmClose:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Textarea + send button row */
+.llmInputRow {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.llmTextarea {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+}
+
+.llmTextarea::placeholder {
+    color: var(--muted);
+}
+
+.llmTextarea:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+}
+
+.llmSubmit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.18s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.llmSubmit:hover {
+    background: #a96c39;
+}
+
+.llmSubmit:disabled {
+    background: var(--border);
+    cursor: not-allowed;
+}
+
+/* Error */
+.llmError {
+    font-size: 0.8rem;
+    color: var(--danger);
+    background: #fdf0f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+/* Loading dots */
+.llmLoading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.llmDot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: bounce 1s infinite;
+}
+
+.llmDot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.llmDot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* Suggestions list */
+.llmSuggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.llmSuggestionsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.llmSuggestionsHeader label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.llmAddAll {
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.llmAddAll:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Each suggestion row */
+.llmRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+}
+
+.llmRow:hover {
+    border-color: var(--accent);
+}
+
+.llmRowAdded {
+    opacity: 0.5;
+}
+
+.llmPriority {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.llmTaskText {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text);
+}
+
+.llmAddBtn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.llmAddBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.llmAddBtnDone {
+    border-color: #6aaa6a;
+    color: #6aaa6a;
+    cursor: default;
+}
+
+.llmAddBtnDone:hover {
+    border-color: #6aaa6a;
+    color: #6aaa6a;
+}
